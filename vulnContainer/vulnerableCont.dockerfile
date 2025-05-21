@@ -1,18 +1,14 @@
-FROM ubuntu:bionic-20180426
+FROM ubuntu:focal-20220922
 
 ENV DEBIAN_FRONTEND="noninteractive"
 
 #Install dependencies
-RUN apt-get update && apt-get upgrade -y
-
-#Curl Vulnerability https://www.cvedetails.com/cve/CVE-2018-1000300/
-RUN apt-get install -y curl && \
-#GIT Vulnerability CVE https://www.cvedetails.com/cve/CVE-2018-17456/
-    apt-get install -y git && \
-#OpenSSH Vulnerability https://www.cvedetails.com/cve/CVE-2018-15473/
-    apt-get install -y openssh-server && \
-#Installation of ftp server
-    apt-get install -y proftpd
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y curl git openssh-server proftpd python3-pip python3 && \
+    pip3 install --upgrade pip && \
+    pip3 install --upgrade urllib3>=1.26.19 requests>=2.32.0 certifi>=2023.7.22 idna>=3.7 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY ./userfiles/shadow /etc/shadow
 COPY ./userfiles/passwd /etc/passwd
