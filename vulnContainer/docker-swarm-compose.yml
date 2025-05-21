@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   web-server:
-    image: samplant10/unidocker:php
+    image: samplant10/unidocker:php-${TAG:-latest}
     volumes:
       - "./UniVulnerableWebsite/:/var/www/html/"
     ports:
@@ -9,7 +9,7 @@ services:
 
 
   mariadb:
-    image: mariadb
+    image: mariadb:${TAG:-latest}
     environment:
       MYSQL_ROOT_PASSWORD: tiaspbiqe2r
       MYSQL_DATABASE: university
@@ -18,7 +18,7 @@ services:
       - "./uni.sql:/tmp/uni.sql"
 
   vulndocker:
-    image: samplant10/unidocker:vulncont
+    image: samplant10/unidocker:vulncont-${TAG:-latest}
     ports:
       - 21
       - 2222
